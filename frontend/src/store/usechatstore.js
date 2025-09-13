@@ -48,23 +48,25 @@ getMessages: async (userId) => {
   }
   },
 
-subscribeToMessages:()=>{
-  const{selectedUser} = get()
-  if(!selectedUser)return;
-
+subscribeToMessages: () => {
+  const { selectedUser } = get();
+  if (!selectedUser) return;
 
   const socket = useAuthStore.getState().socket;
 
-
-  socket.on("newMessage" ,(newMessage)=>{
-    const isMessageSentFromSelectedUser = newMessage.senderId !==selectedUser._id
-    if(!isMessageSentFromSelectedUser) return
-    set({
-      messages:[...get().messages,newMessage]
-    })
-  })
-
+  socket.on("newMessage", (newMessage) => {
+    // Only update if the message belongs to the selected user
+    if (
+      newMessage.senderId === selectedUser._id ||
+      newMessage.receiverId === selectedUser._id
+    ) {
+      set((state) => ({
+        messages: [...state.messages, newMessage],
+      }));
+    }
+  });
 },
+
 
 unsubscribeFromMessages:()=>{
   const socket = useAuthStore.getState().socket;

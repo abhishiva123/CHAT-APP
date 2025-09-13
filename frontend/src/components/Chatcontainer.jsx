@@ -18,12 +18,13 @@ const Chatcontainer = () => {
   }, [selectedUser._id, getMessages,subscribeToMessages,unsubscribeFromMessages]);
 
   useEffect(()=>{
-    if(messageEndRef.current && messages){
-
+    if(messageEndRef.current && messages)
+      {
       messageEndRef.current.scrollIntoView({behavior:"smooth"})
     }
-
   },[messages])
+
+
   if (isMessagesLoading) {
     return <div className='flex-1 flex flex-col overflow-auto'>
       <ChatHeader />
@@ -37,9 +38,9 @@ const Chatcontainer = () => {
   return (
     <div className='flex-1 flex flex-col overflow-auto'>
       <ChatHeader />
-     <div className='flex-1 overflow-y-auto p-4 space-y-4'>
+    <div className='flex-1 overflow-y-auto p-4 space-y-4'>
       {messages.map((message)=>(
-        <div key={message._id} ref={messageEndRef} className={`chat ${message.senderId === authUser._id ? "chat-end":"chat-start"}` }>
+        <div key={message._id}  className={`chat ${message.senderId === authUser._id ? "chat-end":"chat-start"}` }  ref={messageEndRef}>
           
           <div className='chat-image avatar'>
             <div className='size-10 rounded-full border'>
